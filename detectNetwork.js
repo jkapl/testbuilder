@@ -18,7 +18,7 @@ var detectNetwork = function(cardNumber) {
   if ((/^34|^37/).test(cardNumber) && len === 15) { return 'American Express' };
   if ((/^4/).test(cardNumber) && (len === 13 || len === 16 || len === 19)) { return 'Visa'};
   if ((/^51|^52|^53|^54|^55/).test(cardNumber) && len === 16) { return 'MasterCard'};
-  if ((/^6011|^[644-649]|^65/).test(cardNumber) && (len === 16 || len === 19)) { return 'Discover' };
+  if ((/^6011|^644|^645|^646|^647|^648|^649|^65/).test(cardNumber) && (len === 16 || len === 19)) { return 'Discover' };
   if ((/^5018|^5020|^5038|^6304/).test(cardNumber) && (12 <= len <= 19)) { return 'Maestro'};
 };
 

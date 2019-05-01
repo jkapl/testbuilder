@@ -43,6 +43,7 @@ describe('Introduction to Mocha Tests - READ ME FIRST', function() {
     }
   });
 });
+
 describe('Diner\'s Club', function() {
   // Be careful, tests can have bugs too...
 
@@ -71,13 +72,13 @@ describe('American Express', function() {
     }
  
   };
-
+  var should = chai.should();
   it('has a prefix of 34 and a length of 15', function() {
-    assert(detectNetwork('343456789012345') === 'American Express');
+    detectNetwork('343456789012345').should.equal('American Express');
   });
 
   it('has a prefix of 37 and a length of 15', function() {
-    assert(detectNetwork('373456789012345') === 'American Express');
+    detectNetwork('373456789012345').should.equal('American Express');
   });
 });
 
@@ -87,18 +88,19 @@ describe('Visa', function() {
   // Search the documentation to figure out how to access it. 
   //   http://chaijs.com/
   var assert = chai.assert;
+  var should = chai.should();
  
 
   it('has a prefix of 4 and a length of 13', function() {
-    assert(detectNetwork('4123456789012') === 'Visa');
+    detectNetwork('4123456789012').should.equal('Visa');
   });
 
   it('has a prefix of 4 and a length of 16', function() {
-    assert(detectNetwork('4123456789012345') === 'Visa');
+    detectNetwork('4123456789012345').should.equal('Visa');
   });
 
   it('has a prefix of 4 and a length of 19', function() {
-    assert(detectNetwork('4123456789012345678') === 'Visa');
+    detectNetwork('4123456789012345678').should.equal('Visa');
   });
 });
 
@@ -107,18 +109,19 @@ describe('MasterCard', function() {
   // Expect syntax is one way to do this, but there are others. 
   // If you want to know more, check out the documentation. 
   //   http://chaijs.com/api/bdd/
-  var expect = chai.expect;
+  //var expect = chai.expect;
+  var should = chai.should();
  
   it('has a prefix of 51 and a length of 16', function() {
-    expect(detectNetwork('5112345678901234')).to.equal('MasterCard');
+    detectNetwork('5112345678901234').should.equal('MasterCard');
   });
  
   it('has a prefix of 52 and a length of 16', function() {
-    expect(detectNetwork('5212345678901234')).to.equal('MasterCard');
+    detectNetwork('5212345678901234').should.equal('MasterCard');
   });
  
   it('has a prefix of 53 and a length of 16', function() {
-    expect(detectNetwork('5312345678901234')).to.equal('MasterCard');
+    detectNetwork('5312345678901234').should.equal('MasterCard');
   });
  
 
@@ -129,7 +132,7 @@ describe('MasterCard', function() {
   // and should, but that's just for learning), so once you've gotten 
   // these tests to pass using should syntax, refactor your tests to 
   // use either expect or should, but not both. 
-  var should = chai.should();
+  
   
   it('has a prefix of 54 and a length of 16', function() {
     detectNetwork('5412345678901234').should.equal('MasterCard');
@@ -145,18 +148,58 @@ describe('Discover', function() {
   var should = chai.should();
   // Tests without a function will be marked as "pending" and not run
   // Implement these tests (and others) and make them pass!
+  
+
   it('has a prefix of 6011 and a length of 16', function() {
     detectNetwork('6011087645362713').should.equal('Discover');
   });
+
+  it('has a prefix of 65 and a length of 16', function() {
+    detectNetwork('6511087645362713').should.equal('Discover');
+  });
+
+  it('has a prefix of 65 and a length of 19', function() {
+    detectNetwork('6511087645362713345').should.equal('Discover');
+  });
+
   it('has a prefix of 6011 and a length of 19', function () {
     detectNetwork('6011746574738293847').should.equal('Discover');
   });
+
+  for (var prefix=644; prefix<=649; prefix++) {
+    (function(prefix) {
+      it ('has a prefix of ' + prefix + ' and a length of ' + '16', function () {
+        detectNetwork(prefix + '4385930293847').should.equal('Discover');
+      });
+      it ('has a prefix of ' + prefix + ' and a length of ' + '19', function () {
+        detectNetwork(prefix + '4385930293847456').should.equal('Discover');
+      });
+    })(prefix);
+  }
 });
 
+//Maestro always has a prefix of 5018, 5020, 5038, or 6304, and a length of 12-19.
 describe('Maestro', function() {
+  var should = chai.should()
   // Write full test coverage for the Maestro card
   it('has a prefix of 5018 and a length of 12', function() {
     detectNetwork('501838495323').should.equal('Maestro');
   })
+  for (var len=12;len<=19;len++) {
+    (function(len) {
+      it('has a prefix of 5018 and a length of ' + len, function() {
+        detectNetwork('5018' + '1'.repeat(len-4)).should.equal('Maestro');
+      })      
+      it('has a prefix of 5020 and a length of ' + len, function() {
+        detectNetwork('5020' + '1'.repeat(len-4)).should.equal('Maestro');
+      })      
+      it('has a prefix of 5038 and a length of ' + len, function() {
+        detectNetwork('5038' + '1'.repeat(len-4)).should.equal('Maestro');
+      })      
+      it('has a prefix of 6304 and a length of ' + len, function() {
+        detectNetwork('6304' + '1'.repeat(len-4)).should.equal('Maestro');
+      }) 
+    })(len);
+  }
 });
 
